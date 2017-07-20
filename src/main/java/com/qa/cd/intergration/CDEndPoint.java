@@ -18,17 +18,37 @@ public class CDEndPoint {
     private CDService service;
 
     @Path("/json")
-    @GET
-    @Produces({"application/json"})
-    public String getAllCDs() { return service.getAllCDs(); }
-
-    @Path("/json")
     @POST
     @Produces({"application/json"})
     public String createCD(String cd) { return service.createCD(cd); }
 
-    @Path("/json{id}")
+    @Path("/json")
+    @GET
+    @Produces({"application/json"})
+    public String getAllCDs() { return service.getAllCDs(); }
+
+    @Path("/json/{id}")
+    @GET
+    @Produces({"application/json"})
+    public String getCD(@PathParam("id") Long id) { return service.getCD(id); }
+
+    @Path("/json/byname/{title}")
+    @GET
+    @Produces({"application/json"})
+    public String getCD(@PathParam("title") String title) { return service.getCD(title); }
+
+    @Path("/json/{id}")
+    @PUT
+    @Produces({"application/json"})
+    public String editCD(@PathParam("id") Long id, String cd){ return service.editCD(id, cd); }
+
+    @Path("/json/{id}")
     @DELETE
     @Produces({"application/json"})
     public String deleteCD(@PathParam("id") Long id) { return service.deleteCD(id); }
+
+    @Path("/json")
+    @DELETE
+    @Produces({"application/json"})
+    public String deleteAllCDs() { return service.deleteAllCDs(); }
 }

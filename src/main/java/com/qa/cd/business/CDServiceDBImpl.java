@@ -23,8 +23,27 @@ public class CDServiceDBImpl implements CDService {
     private JSONUtil util;
 
     @Override
+    public String getCD(Long id){
+        CD cdInDB = findCD(id);
+        if(cdInDB != null){
+            return util.getJSONForObject(cdInDB);
+        }
+        return "{\"message\": \"cd not deleted. cd not found\"}";
+    }
+
+    @Override
+    public String getCD(String title){
+        CD cdInDB = findCD(title);
+        if(cdInDB != null){
+            return util.getJSONForObject(cdInDB);
+        }
+        return "{\"message\": \"cd not deleted. cd not found\"}";
+    }
+
+
+    @Override
     public String getAllCDs(){
-        Query query = manager.createQuery("Select c From CD c");
+        Query query = manager.createQuery("Select cd From CD cd");
         Collection<CD> cds = (Collection<CD>) query.getResultList();
         return util.getJSONForObject(cds);
     }
@@ -46,7 +65,25 @@ public class CDServiceDBImpl implements CDService {
         return "{\"message\": \"cd not deleted. cd not found\"}";
     }
 
-    private CD findCD(Long id){
-        return manager.find(CD.class, id);
+    @Override
+    public String deleteAllCDs(){
+        int deletedCount = manager.createQuery("DELETE FROM CD").executeUpdate();
+        return "{\"message\": \"$deleteCount cd's deleted\"}";
     }
+
+    @Override
+    public String editCD(Long id, String cd){
+        CD updatedCD = util.getObjectForJSON(cd, CD.class);
+        CD cdInDB = findCD(id);
+        if(cdInDB != null){
+            cdInDB = updatedCD;
+            manager.merge(cdInDB);
+            return "{\"message\": \"cd successfully updated\"}";
+        }
+        return "{\"message\": \"cd not updated. cd not found\"}";
+    }
+
+    private CD findCD(Long id){ return manager.find(CD.class, id);}
+
+    private CD findCD(String title){ return manager.find(CD.class, title); }
 }

@@ -111,6 +111,4 @@ public class CDServiceDBImpl implements CDService {
     }
 
     private CD findCD(Long id){ return manager.find(CD.class, id);}
-
-    private CD findCD(String title){ return manager.find(CD.class, title); }
 }

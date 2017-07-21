@@ -24,63 +24,90 @@ public class CDServiceDBImpl implements CDService {
 
     @Override
     public String getCD(Long id){
-        CD cdInDB = findCD(id);
-        if(cdInDB != null){
-            return util.getJSONForObject(cdInDB);
+        try{
+            CD cdInDB = findCD(id);
+            if(cdInDB != null){
+                return util.getJSONForObject(cdInDB);
+            }
+            return "{\"message\": \"cd not deleted. cd not found\"}";
+        }catch(Exception exc) {
+            return "{\"message\": \"Something went wrong\"}";
         }
-        return "{\"message\": \"cd not deleted. cd not found\"}";
     }
-
-    @Override
-    public String getCD(String title){
-        CD cdInDB = findCD(title);
-        if(cdInDB != null){
-            return util.getJSONForObject(cdInDB);
-        }
-        return "{\"message\": \"cd not deleted. cd not found\"}";
-    }
-
 
     @Override
     public String getAllCDs(){
-        Query query = manager.createQuery("Select cd From CD cd");
-        Collection<CD> cds = (Collection<CD>) query.getResultList();
-        return util.getJSONForObject(cds);
+        try {
+            Query query = manager.createQuery("Select cd From CD cd");
+            Collection<CD> cds = (Collection<CD>) query.getResultList();
+            return util.getJSONForObject(cds);
+        }catch(Exception exc) {
+            return "{\"message\": \"Something went wrong\"}";
+        }
     }
 
     @Override
     public String createCD(String cd){
-        CD aCD = util.getObjectForJSON(cd, CD.class);
-        manager.persist(aCD);
-        return "{\"message\": \"cd successfully added\"}";
+        try{
+            CD aCD = util.getObjectForJSON(cd, CD.class);
+
+            if(aCD.getTitle() == null)throw new IllegalArgumentException("title is null");
+            if(aCD.getGenre() == null)throw new IllegalArgumentException("genre is null");
+            if(aCD.getartist() == null)throw new IllegalArgumentException("artist is null");
+
+            manager.persist(aCD);
+            return "{\"message\": \"cd successfully added\"}";
+        }catch(Exception exc) {
+            if(exc instanceof IllegalArgumentException){
+                return "{\"message\": \"invalid inputs\"}";
+            } else {
+                return "{\"message\": \"something went wrong\"}";
+            }
+        }
     }
 
     @Override
     public String deleteCD(Long id){
-        CD cdInDB = findCD(id);
-        if(cdInDB != null){
-            manager.remove(cdInDB);
-           return "{\"message\": \"cd successfully deleted\"}";
+        try{
+            CD cdInDB = findCD(id);
+            if(cdInDB != null){
+                manager.remove(cdInDB);
+                return "{\"message\": \"cd successfully deleted\"}";
+            }
+            return "{\"message\": \"cd not deleted. cd not found\"}";
+        }catch(Exception exc) {
+            return "{\"message\": \"Something went wrong\"}";
         }
-        return "{\"message\": \"cd not deleted. cd not found\"}";
     }
 
     @Override
     public String deleteAllCDs(){
-        int deletedCount = manager.createQuery("DELETE FROM CD").executeUpdate();
-        return "{\"message\": \"$deleteCount cd's deleted\"}";
+        try {
+            int deletedCount = manager.createQuery("DELETE FROM CD").executeUpdate();
+            return "{\"message\": \"$deleteCount cd's deleted\"}";
+
+        }catch(Exception exc) {
+            return "{\"message\": \"Something went wrong\"}";
+        }
     }
 
     @Override
     public String editCD(Long id, String cd){
-        CD updatedCD = util.getObjectForJSON(cd, CD.class);
-        CD cdInDB = findCD(id);
-        if(cdInDB != null){
-            updatedCD.setID(cdInDB.getId());
-            manager.merge(updatedCD);
-            return "{\"message\": \"cd successfully updated\"}";
+        try{
+            CD updatedCD = util.getObjectForJSON(cd, CD.class);
+            CD cdInDB = findCD(id);
+
+            if(cdInDB != null){
+                if(updatedCD.getTitle() != null){ cdInDB.setTitle(updatedCD.getTitle());}
+                if(updatedCD.getGenre() != null){ cdInDB.setGenre(updatedCD.getGenre());}
+                if(updatedCD.getartist() != null){ cdInDB.setArtist(updatedCD.getartist());}
+                manager.merge(cdInDB);
+                return "{\"message\": \"cd successfully updated\"}";
+            }
+            return "{\"message\": \"cd not updated. cd not found\"}";
+        } catch(Exception exc) {
+            return "{\"message\": \"Something went wrong\"}";
         }
-        return "{\"message\": \"cd not updated. cd not found\"}";
     }
 
     private CD findCD(Long id){ return manager.find(CD.class, id);}

@@ -46,10 +46,12 @@ function deleteCDbyId(id){
     }
 }
 function addCD(titleName,albumName,artistName) {
-    if (titleName !== null || titleName !== "" && albumName !== null || albumName !== "" && artistName !== null || artistName !== "") {
+    if (titleName !== null && titleName !== "" && albumName !== null && albumName !== "" && artistName !== null && artistName !== "") {
 
         var cd = '{"title":"' + titleName + '","genre":"' + albumName + '","artist":"' + artistName + '"}';
         handleInputRequest('POST', "http://localhost:8080/CDWebApi/rest/cd/json/", cd);
+    } else {
+        document.getElementById("para").innerHTML = "Can't have empty fields";
     }
 }
 
@@ -72,7 +74,7 @@ function addCD(titleName,albumName,artistName) {
         request.setRequestHeader('Content-Type', 'application/json');
         request.onload = function(){
             console.log(data);
+            document.getElementById("para").innerHTML = JSON.stringify(request.response);
         }
         request.send(data);
-
-   }
+    }

@@ -4,8 +4,6 @@ public interface CDService {
 
     String getCD(Long id);
 
-    String getCD(String title);
-
     String getAllCDs();
 
     String createCD(String cd);

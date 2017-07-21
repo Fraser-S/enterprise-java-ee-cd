@@ -98,9 +98,9 @@ public class CDServiceDBImpl implements CDService {
             CD cdInDB = findCD(id);
 
             if(cdInDB != null){
-                if(updatedCD.getTitle() != null){ cdInDB.setTitle(updatedCD.getTitle());}
-                if(updatedCD.getGenre() != null){ cdInDB.setGenre(updatedCD.getGenre());}
-                if(updatedCD.getartist() != null){ cdInDB.setArtist(updatedCD.getartist());}
+                if(updatedCD.getTitle() != null && !updatedCD.getTitle().equals("")){ cdInDB.setTitle(updatedCD.getTitle());}
+                if(updatedCD.getGenre() != null && !updatedCD.getGenre().equals("") ){ cdInDB.setGenre(updatedCD.getGenre());}
+                if(updatedCD.getartist() != null && !updatedCD.getartist().equals("")){ cdInDB.setArtist(updatedCD.getartist());}
                 manager.merge(cdInDB);
                 return "{\"message\": \"cd successfully updated\"}";
             }

@@ -1,43 +1,50 @@
 <div class="container">
-    <div class="row">
-        <script src ="functions.js">
+    <header>
+        <title>CD Manager</title>
+    </header>
+    <body>
+        <div class="row">
+            <script src ="functions.js">
 
-        </script>
+            </script>
 
-        <div class="col-md-12 pd-10">
+            <div class="col-md-12 pd-10">
 
-            <div class="col-md-2"><h4>CD ID</h4> </div>
-            <div class="col-md-4"><INPUT id="CDId" placeholder="Enter ID" onkeypress="return isNumberKey(event)"   type="text" name="txtNumber">  </div>
+                <div class="col-md-2"><h4>CD ID</h4> </div>
+                <div class="col-md-4"><INPUT id="CDId" placeholder="Enter ID" onkeypress="return isNumberKey(event)"   type="text" name="txtNumber">  </div>
+            </div>
+
+            <div class="col-md-12 pd-10">
+
+                <div class="col-md-2"><h4>Artist </h4> </div>
+                <div class="col-md-4"><INPUT id="artist" placeholder="Enter Artist" onkeypress="return isNumericKey(event)"   type="text" name="txtCharacter">  </div>
+            </div>
+            <div class="col-md-12 pd-10">
+
+                <div class="col-md-2"><h4>Genre </h4> </div>
+                <div class="col-md-4"><INPUT id="genre" placeholder="Enter Genre" onkeypress="return isNumericKey(event)"   type="text" name="txtCharacter">  </div>
+            </div>
+
+            <div class="col-md-12 pd-10">
+
+                <div class="col-md-2"><h4>Title</h4> </div>
+                <div class="col-md-4">	<INPUT id="titleinput" placeholder="Enter Title" onkeypress="return isNumericKey(event)"   type="text" name="txtNumber" maxlength="50"> </div>
+            </div><br>
+
+            <div><button onclick="getCdbyId(CDId.value)">cdbyID</button></div><br>
+
+            <div><button onclick="getAllCd()">getAllCD</button></div><br>
+
+            <div><button onclick="deleteCDbyId(CDId.value)">deleteCDbyID</button></div><br>
+
+            <div><button onclick="deleteAllCd()">deleteAllCD</button></div><br>
+
+            <div><button onclick="addCD(titleinput.value,genre.value,artist.value)">addCD</button></div><br>
+
+            <div><button onclick="editCD(CDId.value,titleinput.value,genre.value,artist.value)">editCD</button></div><br>
+
+            <p id="para"></p>
+
         </div>
-
-        <div class="col-md-12 pd-10">
-
-            <div class="col-md-2"><h4>Artist </h4> </div>
-            <div class="col-md-4"><INPUT id="artist" placeholder="Enter Artist" onkeypress="return isNumericKey(event)"   type="text" name="txtCharacter">  </div>
-        </div>
-        <div class="col-md-12 pd-10">
-
-            <div class="col-md-2"><h4>Genre </h4> </div>
-            <div class="col-md-4"><INPUT id="genre" placeholder="Enter Genre" onkeypress="return isNumericKey(event)"   type="text" name="txtCharacter">  </div>
-        </div>
-
-        <div class="col-md-12 pd-10">
-
-            <div class="col-md-2"><h4>Title</h4> </div>
-            <div class="col-md-4">	<INPUT id="titleinput" placeholder="Enter Title" onkeypress="return isNumericKey(event)"   type="text" name="txtNumber" maxlength="50"> </div>
-        </div>
-        <div><button onclick="getCdbyId(CDId.value)">cdbyID</button></div><br>
-
-        <div><button onclick="getAllCd()">getAllCD</button></div><br>
-
-        <div><button onclick="deleteCDbyId(CDId.value)">deleteCDbyID</button></div><br>
-
-        <div><button onclick="deleteAllCd()">deleteAllCD</button></div><br>
-
-        <div><button onclick="addCD(titleinput.value,genre.value,artist.value)">addCD</button></div><br>
-
-
-        <p id="para"></p>
-
-    </div>
+    </body>
 </div>

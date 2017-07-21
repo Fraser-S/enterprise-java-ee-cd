@@ -32,11 +32,6 @@ public class CDEndPoint {
     @Produces({"application/json"})
     public String getCD(@PathParam("id") Long id) { return service.getCD(id); }
 
-    @Path("/json/byname/{title}")
-    @GET
-    @Produces({"application/json"})
-    public String getCD(@PathParam("title") String title) { return service.getCD(title); }
-
     @Path("/json/{id}")
     @PUT
     @Produces({"application/json"})

@@ -76,8 +76,8 @@ public class CDServiceDBImpl implements CDService {
         CD updatedCD = util.getObjectForJSON(cd, CD.class);
         CD cdInDB = findCD(id);
         if(cdInDB != null){
-            cdInDB = updatedCD;
-            manager.merge(cdInDB);
+            updatedCD.setID(cdInDB.getId());
+            manager.merge(updatedCD);
             return "{\"message\": \"cd successfully updated\"}";
         }
         return "{\"message\": \"cd not updated. cd not found\"}";
